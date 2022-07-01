@@ -1,5 +1,5 @@
 {
-  "name": "harvest-strategy-polygon",
+  "name": "harvest-universal-liquidator",
   "version": "1.0.0",
   "description": "The Hardhat environment is configured to use Mainnet fork by default and provides templates and utilities for strategy development and testing.",
   "main": "hardhat.config.js",
@@ -9,15 +9,7 @@
   "scripts": {
     "test": "echo \"Error: please run tests individually\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/harvestfi/harvest-strategy-polygon.git"
-  },
   "author": "",
-  "bugs": {
-    "url": "https://github.com/harvestfi/harvest-strategy-polygon/issues"
-  },
-  "homepage": "https://github.com/harvestfi/harvest-strategy-polygon#readme",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-etherscan": "^2.1.2",
