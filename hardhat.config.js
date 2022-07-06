@@ -16,7 +16,7 @@ module.exports = {
       forking: {
         //url: "https://mainnet.infura.io/v3/" + keys.infuraKey,
         url: 'https://eth-mainnet.alchemyapi.io/v2/' + keys.alchemyKeyMainnet,
-        // blockNumber: 15040516, // <-- edit here
+        blockNumber: 15087700, // <-- edit here
       },
     },
     mainnet: {
@@ -41,5 +41,8 @@ module.exports = {
   },
   mocha: {
     timeout: 2000000,
+  },
+  etherscan: {
+    apiKey: keys.etherscanAPI,
   },
 };

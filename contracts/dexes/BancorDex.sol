@@ -5,48 +5,91 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 import "../interface/ILiquidityDex.sol";
 import "../interface/IBancorNetwork.sol";
+import "../interface/IBancorContractRegistry.sol";
+import "../interface/weth/Weth9.sol";
 
 contract BancorDex is ILiquidityDex, Ownable {
-    using SafeMath for uint256;
-    using SafeERC20 for IERC20;
+  using SafeMath for uint256;
+  using SafeERC20 for IERC20;
 
-    receive() external payable {}
+  IBancorContractRegistry public bancorRegistry = IBancorContractRegistry(0x52Ae12ABe5D8BD778BD5397F99cA900624CfADD4);
+  bytes32 public bancorNetworkName = bytes32("BancorNetwork"); // "BancorNetwork"
 
-    address public network;
+  receive() external payable {}
 
-    constructor(address _network) public {
-        network = _network;
+  address public weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+  address public bancorEth = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+
+  address public affiliateAccount = address(0);
+  uint256 public affiliateFee = 0;
+
+  constructor() public {
+  }
+
+  function getBancorNetworkContract() public returns(IBancorNetwork){
+    return IBancorNetwork(bancorRegistry.addressOf(bancorNetworkName));
+  }
+
+  function configure(address newAffiliateAccount, uint256 newAffiliateFee) external onlyOwner {
+    affiliateAccount = newAffiliateAccount;
+    affiliateFee = newAffiliateFee;
+  }
+
+  // BancorDex's doSwap doesn't expect any address in the path to be bancorETH
+  // they have to be regular tokens.
+  function doSwap(
+    uint256 amountIn,
+    uint256 minAmountOut,
+    address spender,
+    address target,
+    address[] memory path // only used for source and destination token
+  ) public override returns(uint256) {
+    address buyToken = path[path.length - 1];
+    address sellToken = path[0];
+    address finalTarget = target;
+
+    IBancorNetwork network = getBancorNetworkContract();
+    IERC20(sellToken).safeTransferFrom(spender, address(this), amountIn);
+
+    if (sellToken == weth) {
+      WETH9(weth).withdraw(amountIn);
+      sellToken = bancorEth;
+    } else {
+      IERC20(sellToken).safeIncreaseAllowance(address(network), amountIn);
     }
 
-    function changeNetwork(address _network) public onlyOwner {
-        network = _network;
+    if (buyToken == weth) {
+      buyToken = bancorEth;
+      // we will be receiving eth here, and wrap it back to WETH
+      target = address(this);
     }
 
-    function doSwap(
-        uint256 amountIn,
-        uint256 minAmountOut,
-        address spender,
-        address target,
-        address[] memory path
-    ) public override returns (uint256) {
-        require(path.length == 2, "Only supports single swaps");
-        address buyToken = path[1];
-        address sellToken = path[0];
+    address[] memory actualPath = network.conversionPath(
+      sellToken,
+      buyToken
+    );
 
-        IERC20(sellToken).safeTransferFrom(spender, address(this), amountIn);
-        IERC20(sellToken).safeIncreaseAllowance(network, amountIn);
+    uint256 outTokenReturned = network.convertByPath{value: sellToken == bancorEth ? amountIn : 0}(
+      actualPath,
+      amountIn,
+      minAmountOut,
+      target, // beneficiary
+      affiliateAccount,
+      affiliateFee
+    );
 
-        uint256 sellTokenBalance = IERC20(sellToken).balanceOf(address(this));
-
-        return IBancorNetwork(network).tradeBySourceAmount(
-            Token(sellToken),
-            Token(buyToken),
-            amountIn,
-            minAmountOut,
-            block.timestamp + 60,
-            target
-        );
+    // If buyToken is bancorEth, then this contract has received ETH after the swap.
+    // ETH should be wrapped back to WETH
+    if(buyToken == bancorEth) {
+      uint256 ethBalance = address(this).balance;
+      WETH9(weth).deposit{value: ethBalance}();
+      outTokenReturned = IERC20(weth).balanceOf(address(this));
+      IERC20(weth).safeTransfer(finalTarget, outTokenReturned);
     }
+
+    return outTokenReturned;
+  }
 }
