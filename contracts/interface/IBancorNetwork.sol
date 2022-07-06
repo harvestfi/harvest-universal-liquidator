@@ -1,17 +1,17 @@
-
 pragma solidity 0.6.12;
 
-interface Token {
-
-}
-
 interface IBancorNetwork {
-    function tradeBySourceAmount(
-        Token sourceToken,
-        Token targetToken,
-        uint256 sourceAmount,
-        uint256 minReturnAmount,
-        uint256 deadline,
-        address beneficiary
-    ) external payable returns (uint256);
+  function convertByPath(
+      address[] memory _path,
+      uint256 _amount,
+      uint256 _minReturn,
+      address _beneficiary,
+      address _affiliateAccount,
+      uint256 _affiliateFee
+  ) external payable returns (uint256);
+
+  function conversionPath(
+    address _sourceToken,
+    address _targetToken
+  ) external view returns (address[] memory);
 }
