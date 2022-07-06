@@ -1,0 +1,34 @@
+{
+  "UniversalLiquidator": "0x875680A120597732F92Bf649cacfEb308e54dbA4",
+  "UniversalLiquidatorRegistry": "0x7882172921E99d590E097cD600554339fBDBc480",
+  "Dexes": {
+    "uni": {
+      "hex": "0xde2d1a51640f78257713031680d1f306297d957426e912ab21317b9cc9495a41",
+      "address": "0x33a6775cbce74145f56807F4B5722942ccc28A39"
+    },
+    "sushi": {
+      "hex": "0xcb2d20206d906069351c89a2cb7cdbd96c71998717cd5a82e724d955b654f67a",
+      "address": "0x0bE0ACb220aAfFB018b08D36f9347572305E31A1"
+    },
+    "uniV3": {
+      "hex": "0x8f78a54cb77f4634a5bf3dd452ed6a2e33432c73821be59208661199511cd94f",
+      "address": "0x1D35ba854575B576B3C0aB4e64E27Bf2D2c1D48A"
+    },
+    "bancor": {
+      "hex": "0x4bf11b89310db45ea1467e48e832606a6ec7b8735c470fff7cf328e182a7c37e",
+      "address": "0xe227A8fcfE8738D2e560BAac26bE203a2311413c"
+    },
+    "balancer": {
+      "hex": "0x9e73ce1e99df7d45bc513893badf42bc38069f1564ee511b0c8988f72f127b13",
+      "address": "0x7f0b29C16c08f1F650391fD7428A39228019a2d9"
+    },
+    "1inch": {
+      "hex": "0xd9bf0c0ec020d1a26ba6698a24db3a538215d8fbf30588bddde694887c4cb55e",
+      "address": "0xA6031a6D87b82B2d60df9B78E578537a2AeAe93a"
+    },
+    "shiba": {
+      "hex": "0x120f6602c43395521bed0cb33c9f952d152e0b371da57e8113ad3f556d257914",
+      "address": "0x94529EE7eB499015652908eb2745cEa2D4460a53"
+    }
+  }
+}
