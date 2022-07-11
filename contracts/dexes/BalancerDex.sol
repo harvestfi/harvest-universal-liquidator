@@ -18,6 +18,7 @@ contract BalancerDex is ILiquidityDex, Ownable {
   address public balancerVault;
   address public weth = address(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
   address public bal = address(0xba100000625a3754423978a60c9317c58a424e3D);
+  address public note = address(0xCFEAead4947f0705A14ec42aC3D44129E1Ef3eD5);
 
   mapping(address => mapping(address => bytes32)) public poolIds;
 
@@ -25,6 +26,8 @@ contract BalancerDex is ILiquidityDex, Ownable {
     balancerVault = _balancerVault;
     poolIds[weth][bal] = bytes32(0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014);
     poolIds[bal][weth] = bytes32(0x5c6ee304399dbdb9c8ef030ab642b10820db8f56000200000000000000000014);
+    poolIds[weth][note] = bytes32(0x5122e01d819e58bb2e22528c0d68d310f0aa6fd7000200000000000000000163);
+    poolIds[note][weth] = bytes32(0x5122e01d819e58bb2e22528c0d68d310f0aa6fd7000200000000000000000163);
   }
 
   function changeVault (address _newVault) external onlyOwner {
