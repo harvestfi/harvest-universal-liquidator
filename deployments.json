@@ -20,7 +20,7 @@
     },
     "balancer": {
       "hex": "0x9e73ce1e99df7d45bc513893badf42bc38069f1564ee511b0c8988f72f127b13",
-      "address": "0x7f0b29C16c08f1F650391fD7428A39228019a2d9"
+      "address": "0xd5ddBB899Ea14591c53779f0a24948BcC62aCb87"
     },
     "1inch": {
       "hex": "0xd9bf0c0ec020d1a26ba6698a24db3a538215d8fbf30588bddde694887c4cb55e",
@@ -29,6 +29,10 @@
     "shiba": {
       "hex": "0x120f6602c43395521bed0cb33c9f952d152e0b371da57e8113ad3f556d257914",
       "address": "0x94529EE7eB499015652908eb2745cEa2D4460a53"
+    },
+    "bancorV3": {
+      "hex": "0xc14ae57ed4308b6730c1edd1b4fb42ab2b4b7b04c3380dd69ddf4a05f7b7757d",
+      "address": "0xF480342390C267446FD0280a79FB02861DC08641"
     }
   }
 }
