@@ -1,5 +1,6 @@
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-truffle5");
+require("@nomiclabs/hardhat-ethers");
 
 const keys = require('./dev-keys.json');
 /**
@@ -12,11 +13,10 @@ module.exports = {
       accounts: {
         mnemonic: keys.mnemonic,
       },
-      allowUnlimitedContractSize: true,
       forking: {
         //url: "https://mainnet.infura.io/v3/" + keys.infuraKey,
         url: 'https://eth-mainnet.alchemyapi.io/v2/' + keys.alchemyKeyMainnet,
-        blockNumber: 15087700, // <-- edit here
+        // blockNumber: 15087700, // <-- edit here
       },
     },
     mainnet: {
