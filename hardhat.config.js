@@ -14,13 +14,12 @@ module.exports = {
         mnemonic: keys.mnemonic,
       },
       forking: {
-        //url: "https://mainnet.infura.io/v3/" + keys.infuraKey,
-        url: 'https://eth-mainnet.alchemyapi.io/v2/' + keys.alchemyKeyMainnet,
+        url: 'https://eth-mainnet.g.alchemy.com/v2/' + keys.alchemyKeyMainnet,
         // blockNumber: 15087700, // <-- edit here
       },
     },
     mainnet: {
-      url: 'https://eth-mainnet.alchemyapi.io/v2/' + keys.alchemyKeyMainnet,
+      url: 'https://eth-mainnet.g.alchemy.com/v2/' + keys.alchemyKeyMainnet,
       accounts: {
         mnemonic: keys.mnemonic,
       },
